@@ -96,6 +96,10 @@ func (c Client) getBucketLocation(bucketName string) (string, error) {
 		return "cn-north-1", nil
 	}
 
+       if s3utils.IsAmazonAustraliaEndpoint(c.endpointURL) {
+               // Set correct location when using australian endpoint
+               return "ap-southeast-2", nil
+       }
 	// Initialize a new request.
 	req, err := c.getBucketLocationRequest(bucketName)
 	if err != nil {

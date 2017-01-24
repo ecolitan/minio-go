@@ -83,6 +83,8 @@ func IsVirtualHostSupported(endpointURL url.URL, bucketName string) bool {
 func IsAmazonEndpoint(endpointURL url.URL) bool {
 	if IsAmazonChinaEndpoint(endpointURL) {
 		return true
+       } else if IsAmazonAustraliaEndpoint(endpointURL) {
+               return true
 	}
 
 	return endpointURL.Host == "s3.amazonaws.com"
@@ -99,6 +101,20 @@ func IsAmazonChinaEndpoint(endpointURL url.URL) bool {
 		return false
 	}
 	return endpointURL.Host == "s3.cn-north-1.amazonaws.com.cn"
+}
+
+// IsAmazonAustraliaEndpoint - Match if it is an Australian S3 endpoint.
+func IsAmazonAustraliaEndpoint(endpointURL url.URL) bool {
+       if endpointURL == sentinelURL {
+               return false
+       }
+       if endpointURL.Host == "s3-ap-southeast-1.amazonaws.com" {
+               return true
+       } else if endpointURL.Host == "s3-ap-southeast-2.amazonaws.com" {
+               return true
+       } else {
+               return false
+       }
 }
 
 // IsGoogleEndpoint - Match if it is exactly Google cloud storage endpoint.
